@@ -1,37 +1,28 @@
-/******************************************************************************
- * File: main.c
- ******************************************************************************/
-
 #include <stdio.h>
-#include "hashtable.h"
+#include <stdlib.h>
+#include "sinhvien.h"
 
-int main(void)
-{
-    struct Node *p;
+int main() {
+    SinhVien ds[100];
+    int n;
 
-    init_table();
+    docFile(ds, &n);
 
-    insert("An", "111");
-    insert("Binh", "222");
-    insert("Cuong", "333");
+    // sắp xếp theo tên
+    qsort(ds, n, sizeof(SinhVien), cmpTen);
+    printf("Theo ten:\n");
+    for (int i = 0; i < n; i++)
+        printf("%s %s %d\n", ds[i].ho, ds[i].ten, ds[i].tuoi);
 
-    printf("=== Phone Book ===\n");
-    display();
+    // sắp xếp theo họ
+    qsort(ds, n, sizeof(SinhVien), cmpHo);
+    printf("\nTheo ho:\n");
+    for (int i = 0; i < n; i++)
+        printf("%s %s %d\n", ds[i].ho, ds[i].ten, ds[i].tuoi);
 
-    printf("\n=== Search ===\n");
-    p = search("Binh");
-
-    if(p)
-        printf("Found: %s -> %s\n", p->name, p->phone);
-    else
-        printf("Not found\n");
-
-    printf("\n=== Delete ===\n");
-    delete("An");
-
-    display();
-
-    clear_table();
+    // apply
+    printf("\n>20 tuoi:\n");
+    apply(ds, n, isOlder);
 
     return 0;
 }

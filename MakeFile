@@ -1,0 +1,22 @@
+CC = gcc
+
+all: main
+
+main: main.o sinhvien.o
+	$(CC) main.o sinhvien.o -o main -Wl,-Map=main.map
+
+main.o: main.c sinhvien.h
+	$(CC) -c main.c
+
+sinhvien.o: sinhvien.c sinhvien.h
+	$(CC) -c sinhvien.c
+
+asm:
+	$(CC) -S main.c
+	$(CC) -S sinhvien.c
+
+dep:
+	$(CC) -M main.c > main.d
+
+clean:
+	rm -f *.o *.s *.d *.map main
